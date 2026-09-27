@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
+import { BrowserRouter, MemoryRouter, Route, Routes, useLocation } from "react-router-dom";
 import { NotForThisRing } from "./components/Shell";
 import { ViewerProvider } from "./viewer";
 import MorningBrief from "./pages/MorningBrief";
@@ -17,6 +17,9 @@ import EventCapture from "./pages/EventCapture";
 import Onboarding from "./pages/Onboarding";
 import Foundations from "./pages/Foundations";
 
+// The hosted preview (a claude.ai artifact) has no real URLs, so it routes in memory.
+const Router = import.meta.env.VITE_ROUTER === "memory" ? MemoryRouter : BrowserRouter;
+
 function ScrollToTop() {
   const { pathname, hash } = useLocation();
   useEffect(() => {
@@ -28,7 +31,7 @@ function ScrollToTop() {
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <Router>
       <ViewerProvider>
         <ScrollToTop />
         <Routes>
@@ -49,6 +52,6 @@ export default function App() {
           <Route path="*" element={<NotForThisRing sentence="There is nothing at this address." />} />
         </Routes>
       </ViewerProvider>
-    </BrowserRouter>
+    </Router>
   );
 }

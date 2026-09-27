@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { CURATED_LINE } from "../data/data";
 import { CENTER_LONG, CENTERS } from "../data/format";
 import { RingLabel, Rum, StageGate } from "../components/marks";
@@ -34,6 +35,7 @@ export default function Foundations() {
   return (
     <main style={{ padding: "64px 72px", maxWidth: 1440, margin: "0 auto" }}>
       <div className="stack gap-56">
+        <Link to="/" className="back-link">Back to the Morning Brief</Link>
         <header className="stack gap-6">
           <div className="eyebrow">Collaboration Circle OS</div>
           <h1 className="serif-40">Foundations</h1>

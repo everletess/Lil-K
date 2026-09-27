@@ -88,6 +88,10 @@ export function Rail({ className }: { className?: string }) {
           </select>
         </label>
         <div className="rail-member-ring">{viewer.ringLabel}</div>
+        <div className="rail-links">
+          <Link to="/onboarding">Onboarding</Link>
+          <Link to="/foundations">Foundations</Link>
+        </div>
       </div>
     </nav>
   );
