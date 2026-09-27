@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import { TextChoice } from "../components/controls";
 import { AGREEMENT_TERMS, SURVEY } from "../data/data";
 
@@ -57,7 +58,7 @@ export default function Onboarding() {
   return (
     <div className="shell">
       <nav className="steps-col" aria-label="Steps">
-        <div className="serif-20" style={{ lineHeight: 1.2 }}>Collaboration<br />Circle</div>
+        <Link to="/" className="serif-20" style={{ lineHeight: 1.2 }}>Collaboration<br />Circle</Link>
         <ol>
           {STEPS.map((s, i) => (
             <li key={s.id}>
@@ -67,6 +68,7 @@ export default function Onboarding() {
             </li>
           ))}
         </ol>
+        <Link to="/" className="back-link" style={{ marginTop: "auto" }}>Back to the Morning Brief</Link>
       </nav>
 
       <main style={{ flex: 1, minWidth: 0, padding: "56px 72px", maxWidth: 920 }}>

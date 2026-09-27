@@ -118,6 +118,12 @@ button, input, select, textarea { font: inherit; color: inherit; }
   font-size: 15px; font-weight: 500; color: var(--cc-rail-text); cursor: pointer; width: 100%;
 }
 .rail-member select option { color: var(--cc-ink); background: var(--cc-surface); }
+.rail-links { display: flex; gap: 16px; padding-top: 10px; }
+.rail-links a { font-size: 14px; color: var(--cc-rail-meta); transition: color var(--cc-transition); }
+.rail-links a:hover { color: var(--cc-rail-active); }
+.rail-links a:focus-visible { outline-color: var(--cc-rail-active); }
+.back-link { font-size: 14px; color: var(--cc-secondary); border-bottom: 1px solid var(--cc-divider); padding-bottom: 2px; align-self: flex-start; }
+.back-link:hover { color: var(--cc-ink); }
 
 .main { flex: 1; min-width: 0; padding: 48px 56px; display: flex; justify-content: center; }
 .page { width: 100%; max-width: var(--cc-content-max); display: flex; flex-direction: column; }
