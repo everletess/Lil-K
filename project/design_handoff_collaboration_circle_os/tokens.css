@@ -1,0 +1,64 @@
+/* Collaboration Circle OS — design tokens. Source of truth: README.md → Design tokens. */
+@import url("https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400&family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap");
+
+:root {
+  /* Surfaces */
+  --cc-surface: #FFFFFF;
+  --cc-structural: #F3F4F6;   /* table headers, group bands, row hover */
+  --cc-hairline: #E2E5E9;     /* row dividers, card border, empty RUM segment */
+  --cc-divider: #C7CCD2;      /* major region rules, input borders */
+
+  /* Ink */
+  --cc-ink: #101418;          /* 18.5:1 */
+  --cc-secondary: #4B5563;    /* 7.5:1 */
+  --cc-tertiary: #6B7280;     /* 4.7:1 — never below 14px */
+
+  /* Accents */
+  --cc-oxblood: #6E1E2A;      /* one primary action per screen */
+  --cc-oxblood-hover: #571722;
+  --cc-brass: #7A6230;        /* RUM mark + ring labels only */
+
+  /* Stages */
+  --cc-stage-intake: #6B7280;
+  --cc-stage-analyze: #4B5563;
+  --cc-stage-strategize: #1F4E79;
+  --cc-stage-close: #6E1E2A;
+
+  /* Rail */
+  --cc-rail-bg: #101418;
+  --cc-rail-text: #E5E7EB;
+  --cc-rail-active: #FFFFFF;
+  --cc-rail-meta: #9CA3AF;
+  --cc-rail-rule: #2A3139;
+
+  /* Type */
+  --cc-serif: "Newsreader", Georgia, serif;
+  --cc-sans: "IBM Plex Sans", system-ui, sans-serif;
+  --cc-mono: "IBM Plex Mono", ui-monospace, monospace;
+  --cc-tracking-mono: .08em;
+
+  /* Layout */
+  --cc-rail-width: 220px;
+  --cc-content-max: 1200px;
+  --cc-reading-max: 1000px;
+  --cc-row-min: 64px;
+  --cc-row-pad: 16px 12px;
+  --cc-radius: 0;
+  --cc-transition: 150ms ease;
+}
+
+/* Dark ground — Archive reading option / theme toggle only */
+[data-theme="dark"] {
+  --cc-surface: #181D23;
+  --cc-ground: #101418;
+  --cc-ink: #E5E7EB;
+  --cc-secondary: #9CA3AF;
+  --cc-hairline: #2A3139;
+  --cc-divider: #2A3139;
+  --cc-oxblood: #C0616F;
+  --cc-brass: #C9A55E;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
+}
