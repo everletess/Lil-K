@@ -45,3 +45,19 @@ The member name at the foot of the rail is a switch between four sample viewers:
 - `src/styles/app.css`: the shared vocabulary (the standard row, bands, buttons, text controls, tabs, filters, RUM mark, stage gate).
 - `src/components/`: the shell and rail, the marks and the controls.
 - `src/pages/`: one file per screen.
+
+## Hosting with a password (Vercel)
+
+The site is gated by `middleware.ts`, which runs on Vercel before any file is served. Visitors without a valid session see a sign-in page; the app's code is never sent to them.
+
+1. In Vercel, choose **Add New → Project** and import `everletess/Lil-K` from GitHub.
+2. Set **Root Directory** to `web`. Vercel reads the rest from `vercel.json`.
+3. Under **Environment Variables**, add `SITE_PASSWORD` with the password you will give your team.
+4. Deploy.
+
+Notes:
+- If `SITE_PASSWORD` is missing, the site shows only a "locked" message.
+- Changing `SITE_PASSWORD` (then redeploying) signs everyone out.
+- A session lasts 30 days. `/__auth/logout` signs a visitor out.
+- Pages are marked `noindex` so search engines don't list them.
+- `npm run dev` runs without the gate; it applies only on Vercel.
