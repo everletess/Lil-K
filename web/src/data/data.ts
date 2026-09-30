@@ -229,6 +229,11 @@ export const DEALS: Deal[] = [
     fit: "Adjacent to your Iberian holdings; submitted 11 Sep, not yet curated.",
   },
   {
+    id: "blob-ai", name: "Blob AI", center: "Business", structure: "Direct",
+    leadFamilyId: null, stage: "intake", decisionDate: "2026-10-31", ring: 1, rum: 1, owner: "Samira Salman",
+    fit: "AI for people who don't trust AI: no ads, no data deals. Raising $5M at a $50M valuation.",
+  },
+  {
     id: "meridian", name: "Meridian Aviation Services Carve-out", center: "Business", structure: "SPV",
     leadFamilyId: "lindqvist", stage: "analyze", decisionDate: "2026-11-14", ring: 1, rum: 3, owner: "Operating Lead",
     fit: "Two of your operating partners already service this fleet.",
@@ -275,10 +280,10 @@ export type DealRoomData = {
   memoRevised: string;
   lead: string;
   memo: string[];
-  raise: number;
-  softCircled: number;
-  minimum: number;
-  soft: string;
+  /** The figures strip under the memo, in order. */
+  figures: [label: string, amount: number][];
+  /** The primary action once a family leads, e.g. "Soft-circle $2.5M". */
+  primary?: string;
   threads: { name: string; role: string; date: string; body: string; open: boolean }[];
   syndicate: { familyId: string; soft: number; alloc: number | null; status: string }[];
   knowHere: { name: string; rum: RumStrength; note: string }[];
@@ -301,10 +306,8 @@ export const DEAL_ROOMS: Record<string, DealRoomData> = {
       "Northfield holds 41,000 acre-feet of pre-1922 rights leased to two municipal districts and one agricultural cooperative. Contracted revenue is $4.1M against operating costs of $0.9M. The seller is a second-generation family exiting after a probate settlement and has agreed to a 90-day exclusivity with the circle.",
       "We are raising $30M of equity at a 6.8% unlevered yield. The Whitcombe family holds $18M and has asked the circle for the balance from families who can hold twenty years.",
     ],
-    raise: 30_000_000,
-    softCircled: 24_500_000,
-    minimum: 1_000_000,
-    soft: "Soft-circle $2.5M",
+    figures: [["Raise", 30_000_000], ["Soft-circled", 24_500_000], ["Minimum", 1_000_000]],
+    primary: "Soft-circle $2.5M",
     threads: [
       { name: "Hal Brenner", role: "Water engineer · Ring 3 · invited by the Whitcombe family", date: "2026-09-11", body: "The 1922 decree priority is the whole asset. I have read the two municipal leases; both carry shortage-sharing language that has never been tested in court. I would price that.", open: true },
       { name: "Dr. Ana Lindqvist", role: "the Lindqvist family · Ring 2", date: "2026-09-09", body: "We hold similar rights in Chile. Our experience is that the agricultural cooperative renegotiates every drought cycle. Ask for ten years of delivery records, not five.", open: false },
@@ -350,6 +353,29 @@ export const DEAL_ROOMS: Record<string, DealRoomData> = {
       { date: "2026-08-22", event: "Hydrology review added.", by: "Hal Brenner" },
       { date: "2026-07-28", event: "Gate to Strategize cleared.", by: "Samira Salman" },
       { date: "2026-07-02", event: "Submitted to the circle via Milken; curated in.", by: "the Whitcombe family" },
+    ],
+  },
+  "blob-ai": {
+    stageDates: {},
+    memoRevised: "Intake summary · Samira Salman",
+    lead: "AI for people who don't trust AI: a subscription companion from Everle, Inc. that answers to the person using it, not to an advertiser.",
+    memo: [
+      "Blob is built for the real parts of life (the 2 a.m. ideas and the big decisions) rather than for spreadsheets. The model is the product, not the user: zero ads, zero data deals and zero training on what people tell it. No one at Blob can read members' chats, and the company says their data will never pay the bills.",
+      "The company is raising $5M at a $50M valuation. No family has taken the lead yet, and the gate to Analyze needs one. Before that gate the lead will ask for revenue and retention figures, the cap table and the terms of the round.",
+    ],
+    figures: [["Raise", 5_000_000], ["Valuation", 50_000_000], ["Soft-circled", 0]],
+    threads: [],
+    syndicate: [],
+    knowHere: [],
+    warmestRoute: "",
+    dataRoom: [],
+    decision: {
+      meets: "Decision 31 Oct.",
+      quorum: "The gate to Analyze opens once a family takes the lead.",
+      votes: [],
+    },
+    history: [
+      { date: "2026-09-14", event: "Submitted to the circle and curated in at Intake. Lead sought.", by: "Samira Salman" },
     ],
   },
 };
@@ -529,6 +555,7 @@ export const COMMAND = {
     { id: "munich-rollup", deal: "Munich Industrial Services Roll-up", center: "Business · SPV", source: "the Thorne family", introducer: "Samira Salman", submitted: "2026-09-03" },
   ],
   noLead: [
+    { dealId: "blob-ai", meta: "Business · Direct · Ring 1 · decision 31 Oct", note: "Raising $5M at a $50M valuation; needs a family to chair diligence." },
     { dealId: "pond-lily", meta: "People · Direct · Ring 2 · decision 17 Oct", note: "Two families reading; neither will chair." },
     { dealId: "gulf-women", meta: "Assets · Fund · Ring 2 · second close 31 Oct", note: "Al-Rashid family will co-lead if a second family steps up." },
   ],
@@ -562,7 +589,7 @@ export const COMMAND = {
     { label: "Relationships owned", value: "1,240" },
     { label: "Introductions this quarter", value: "31" },
     { label: "Archive cleared", value: "412 / 1,870" },
-    { label: "Deals in pipeline", value: "9" },
+    { label: "Deals in pipeline", value: "10" },
   ],
 };
 
