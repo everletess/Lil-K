@@ -6,10 +6,10 @@ import { BRIEF_EVENTS, BRIEF_PENDING, CURATED_LINE, MY_DEALS, deal } from "../da
 import { TODAY, ageLabel, dayMonth, isOverdue, longDate } from "../data/format";
 import { useViewer } from "../viewer";
 
-type LeadState = { soft: boolean; intro: "open" | "made" | "later" };
+type LeadState = { soft: boolean; blobLead: boolean; intro: "open" | "made" | "later" };
 
 function useLeadState() {
-  return useState<LeadState>({ soft: false, intro: "open" });
+  return useState<LeadState>({ soft: false, blobLead: false, intro: "open" });
 }
 
 export default function MorningBrief() {
@@ -26,10 +26,10 @@ export default function MorningBrief() {
           <header className="stack gap-8">
             <div className="eyebrow">{longDate(TODAY)}</div>
             <h1 className="serif-40">Good morning, {viewer.firstName}.</h1>
-            <p className="t15 sec" style={{ margin: 0 }}>Three things today. One needs a decision this month.</p>
+            <p className="t15 sec" style={{ margin: 0 }}>Four things today. One needs a decision this month.</p>
           </header>
 
-          <section aria-label="Three things for you today" style={{ borderTop: "1px solid var(--cc-hairline)" }}>
+          <section aria-label="Four things for you today" style={{ borderTop: "1px solid var(--cc-hairline)" }}>
             <article className="lead-item">
               <h2 className="eyebrow">A deal for you</h2>
               <div className="stack gap-10">
@@ -50,6 +50,29 @@ export default function MorningBrief() {
                   </button>
                 )}
                 <Link to="/deals/northfield" className="text-ctl text-ctl--ink">Open the deal room</Link>
+              </div>
+            </article>
+
+            <article className="lead-item" aria-label="A deal for you">
+              <div aria-hidden="true" />
+              <div className="stack gap-10">
+                <Link to="/deals/blob-ai" className="serif-22">Blob AI</Link>
+                <p className="t14 ink lh16" style={{ margin: 0, maxWidth: 560 }}>
+                  AI for people who don't trust AI: a subscription companion from Everle, Inc. with no ads, no data deals and no training on members' conversations. Raising $5M at a $50M valuation; no family leads it yet.
+                </p>
+                <div className="eyebrow">Business · Direct · Ring 1</div>
+                <div className="curated">{CURATED_LINE}</div>
+              </div>
+              <div className="stack gap-12 start">
+                <div className="num-14 ink">Decision 31 Oct</div>
+                {state.blobLead ? (
+                  <p className="notice" style={{ margin: 0 }}>Sent to Samira Salman, the gate owner. You will hear within two days.</p>
+                ) : (
+                  <button type="button" className="btn btn-secondary btn--sm" onClick={() => setState({ ...state, blobLead: true })}>
+                    Take the lead
+                  </button>
+                )}
+                <Link to="/deals/blob-ai" className="text-ctl text-ctl--ink">Open the deal room</Link>
               </div>
             </article>
 
@@ -197,6 +220,19 @@ function MobileBrief({ state, setState }: { state: LeadState; setState: (s: Lead
           ) : (
             <button type="button" className="btn btn-primary btn--block" style={{ marginTop: 4 }} onClick={() => setState({ ...state, soft: true })}>
               Soft-circle $2.5M
+            </button>
+          )}
+        </article>
+
+        <article className="stack gap-12" style={item}>
+          <Link to="/deals/blob-ai" className="serif-20">Blob AI</Link>
+          <p className="t15 ink" style={{ margin: 0 }}>AI for people who don't trust AI. Raising $5M at a $50M valuation; no family leads it yet.</p>
+          <div className="mono">DECISION 31 OCT · RING 1 · LEAD SOUGHT</div>
+          {state.blobLead ? (
+            <p className="notice" style={{ margin: "4px 0 0" }}>Sent to Samira Salman, the gate owner.</p>
+          ) : (
+            <button type="button" className="btn btn-secondary btn--block" style={{ marginTop: 4 }} onClick={() => setState({ ...state, blobLead: true })}>
+              Take the lead
             </button>
           )}
         </article>
