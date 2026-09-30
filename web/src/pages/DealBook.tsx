@@ -77,7 +77,7 @@ export default function DealBook() {
           <div className="inline between end gap-32" style={{ alignItems: "flex-end" }}>
             <div className="stack gap-6">
               <h1 className="serif-28">Deal Book</h1>
-              <p className="t14 sec" style={{ margin: 0 }}>Nine live deals. Five you can act on at Ring 1.</p>
+              <p className="t14 sec" style={{ margin: 0 }}>Ten live deals. Five you can act on at Ring 1.</p>
             </div>
             <button type="button" className="btn btn-secondary btn--sm">Submit a deal</button>
           </div>

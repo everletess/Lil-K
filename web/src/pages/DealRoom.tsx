@@ -34,7 +34,7 @@ function Room({ d }: { d: Deal }) {
   const lead = family(d.leadFamilyId);
   const stage = STAGES.find((s) => s.id === d.stage)!;
   const days = d.decisionDate ? daysFromToday(d.decisionDate) : null;
-  const primaryLabel = room ? room.soft : lead ? "Ask to join the syndicate" : "Take the lead";
+  const primaryLabel = !lead ? "Take the lead" : room?.primary ?? "Ask to join the syndicate";
 
   return (
     <Shell>
@@ -62,7 +62,9 @@ function Room({ d }: { d: Deal }) {
                 )}
                 {acted ? (
                   <p className="notice" style={{ margin: 0 }}>
-                    {room ? "Soft-circle of $2.5M sent to the lead family's office." : "Sent to the gate owner. You will hear within two days."}
+                    {lead && room?.primary
+                      ? `${room.primary.replace("Soft-circle", "Soft-circle of")} sent to the lead family's office.`
+                      : "Sent to the gate owner. You will hear within two days."}
                   </p>
                 ) : (
                   <button type="button" className="btn btn-primary btn--sm" onClick={() => setActed(true)}>{primaryLabel}</button>
@@ -84,7 +86,7 @@ function Room({ d }: { d: Deal }) {
 
             <aside className="aside aside--300" aria-label="Who we know here">
               <h2 className="eyebrow">Who we know here</h2>
-              {room ? (
+              {room && room.knowHere.length > 0 ? (
                 <>
                   {room.knowHere.map((k) => (
                     <div key={k.name} className="stack gap-6" style={{ paddingBottom: 16, borderBottom: "1px solid var(--cc-hairline)" }}>
@@ -144,10 +146,10 @@ function TabBody({ tab, d }: { tab: Tab; d: Deal }) {
               borderTop: "1px solid var(--cc-hairline)", borderBottom: "1px solid var(--cc-hairline)",
             }}
           >
-            {[["Raise", room.raise], ["Soft-circled", room.softCircled], ["Minimum", room.minimum]].map(([k, v]) => (
+            {room.figures.map(([k, v]) => (
               <div key={k} className="stack gap-5">
                 <span className="eyebrow">{k}</span>
-                <span className="num-20">{money(v as number)}</span>
+                <span className="num-20">{money(v)}</span>
               </div>
             ))}
           </div>
@@ -162,6 +164,7 @@ function TabBody({ tab, d }: { tab: Tab; d: Deal }) {
             <div className="row-head" style={{ gridTemplateColumns: "2.4fr 1fr .8fr 1.6fr .6fr" }}>
               <div>Document</div><div>Kind</div><div>Added</div><div>By</div><div>Ring</div>
             </div>
+            {room.dataRoom.length === 0 && <p className="empty">Nothing in the data room yet. The founders' materials arrive once a family takes the lead.</p>}
             {room.dataRoom.map((doc) => (
               <div key={doc.name} className="row row--link" style={{ gridTemplateColumns: "2.4fr 1fr .8fr 1.6fr .6fr" }} tabIndex={0}>
                 <div className="t15 w500">{doc.name}</div>
@@ -179,6 +182,7 @@ function TabBody({ tab, d }: { tab: Tab; d: Deal }) {
     case "Diligence":
       return (
         <div className="stack" style={{ maxWidth: 660 }}>
+          {room.threads.length === 0 && <p className="t14 sec" style={{ margin: 0 }}>No diligence threads yet. They open when the lead family invites experts from the circle.</p>}
           {room.threads.map((t) => (
             <article key={t.name} className="stack gap-10" style={{ padding: "22px 0", borderBottom: "1px solid var(--cc-hairline)" }}>
               <div className="baseline between gap-20">
@@ -199,6 +203,7 @@ function TabBody({ tab, d }: { tab: Tab; d: Deal }) {
           <div className="row-head" style={{ gridTemplateColumns: "2fr 1fr 1fr .8fr" }}>
             <div>Family</div><div>Soft-circled</div><div>Allocation</div><div>Status</div>
           </div>
+          {room.syndicate.length === 0 && <p className="empty">No family has soft-circled yet.</p>}
           {room.syndicate.map((s) => (
             <Link key={s.familyId} to={`/families/${s.familyId}`} className="row row--link" style={{ gridTemplateColumns: "2fr 1fr 1fr .8fr" }}>
               <div className="serif-17">{family(s.familyId)!.name}</div>
@@ -221,6 +226,7 @@ function TabBody({ tab, d }: { tab: Tab; d: Deal }) {
             <div className="row-head" style={{ gridTemplateColumns: "2fr 1fr .8fr 2fr" }}>
               <div>Investment committee</div><div>Role</div><div>Vote</div><div>Note</div>
             </div>
+            {room.decision.votes.length === 0 && <p className="empty">The committee forms once a family leads.</p>}
             {room.decision.votes.map((v) => (
               <div key={v.member} className="row" style={{ gridTemplateColumns: "2fr 1fr .8fr 2fr" }}>
                 <div className="serif-17">{v.member}</div>

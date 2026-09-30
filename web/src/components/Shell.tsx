@@ -10,7 +10,7 @@ function memberNav(viewer: Viewer): NavItem[] {
   const own = viewer.familyId ? `/families/${viewer.familyId}` : "";
   return [
     { label: "Morning Brief", to: "/", match: (p) => p === "/" },
-    { label: "Deal Book", to: "/deals", count: "9", match: (p) => p.startsWith("/deals") },
+    { label: "Deal Book", to: "/deals", count: "10", match: (p) => p.startsWith("/deals") },
     {
       label: "Families & Circle", to: "/circle", count: "38",
       match: (p) => p.startsWith("/circle") || (p.startsWith("/families/") && p !== own),
@@ -26,7 +26,7 @@ function teamNav(): NavItem[] {
   return [
     { label: "Command", to: "/command", count: "4", match: (p) => p.startsWith("/command") },
     { label: "Morning Brief", to: "/", match: (p) => p === "/" },
-    { label: "Deal Book", to: "/deals", count: "9", match: (p) => p.startsWith("/deals") },
+    { label: "Deal Book", to: "/deals", count: "10", match: (p) => p.startsWith("/deals") },
     { label: "Families & Circle", to: "/circle", count: "52", match: (p) => p.startsWith("/circle") || p.startsWith("/families/") },
     { label: "Introductions", to: "/introductions", count: "7", match: (p) => p.startsWith("/introductions") },
     { label: "The Archive", to: "/archive", match: (p) => p.startsWith("/archive") },
