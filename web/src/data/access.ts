@@ -1,3 +1,4 @@
+import { isPublished } from "./store";
 import type { ArchiveItem, Deal, Ring, Viewer } from "./types";
 
 /**
@@ -18,12 +19,14 @@ export function visibleDeals(deals: Deal[], viewer: Viewer): Deal[] {
  */
 export function archiveVisible(item: ArchiveItem, viewer: Viewer): boolean {
   if (viewer.ring === 0) return true;
+  if (item.rights === "under_review" && isPublished(item.id)) return ringVisible(item.ring, viewer);
   if (item.rights === "under_review" || item.rights === "restricted") return false;
   return ringVisible(item.ring, viewer);
 }
 
 export function rightsLabel(item: ArchiveItem): string {
-  switch (item.rights) {
+  const rights = item.rights === "under_review" && isPublished(item.id) ? "cleared" : item.rights;
+  switch (rights) {
     case "cleared":
       return `CLEARED · RING ${item.ring}`;
     case "attribution_removed":

@@ -1,9 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { NotForThisRing, PageHeader, Shell } from "../components/Shell";
+import { CenterPicker } from "../components/controls";
 import { Rum } from "../components/marks";
-import { COMMAND, deal } from "../data/data";
-import { ageLabel, dayMonthYear } from "../data/format";
+import { ARCHIVE, COMMAND, archiveItem, deal } from "../data/data";
+import { RECORDING_INBOX, SUMMARIES } from "../data/phase2";
+import { centersOf, isPublished, publishRecording, setCenters, useCenters, usePublishedVersion } from "../data/store";
+import { ageLabel, dayMonthYear, monthYear } from "../data/format";
 import { useViewer } from "../viewer";
 
 type Curation = "In" | "Park" | "Declined";
@@ -16,6 +19,12 @@ export default function Command() {
   const [reason, setReason] = useState("");
   const [nudged, setNudged] = useState<Record<string, boolean>>({});
   const [taken, setTaken] = useState<Record<string, boolean>>({});
+  const centers = useCenters();
+  usePublishedVersion();
+  const [showAllCenters, setShowAllCenters] = useState(false);
+  const [inboxCenters, setInboxCenters] = useState(() =>
+    Object.fromEntries(RECORDING_INBOX.map((r) => [r.itemId, r.suggested])),
+  );
 
   if (viewer.ring !== 0) return <NotForThisRing sentence="Command is for the Advanced Team." />;
 
@@ -134,6 +143,72 @@ export default function Command() {
                   <div className="mono">{r.waiting}</div>
                 </div>
               ))}
+            </section>
+
+            <section className="table table-scroll" aria-label="Recordings in from Zoom">
+              <div className="band band--split">
+                <h2 className="eyebrow" style={{ margin: 0 }}>
+                  Recordings in from Zoom · {RECORDING_INBOX.filter((r) => !isPublished(r.itemId)).length}
+                </h2>
+                <span className="note">Catalogued from the calendar. Nothing reaches families until you approve it.</span>
+              </div>
+              {RECORDING_INBOX.map((r) => {
+                const item = archiveItem(r.itemId)!;
+                const done = isPublished(r.itemId);
+                return (
+                  <div key={r.itemId} className="row row--top" style={{ gridTemplateColumns: "2.4fr 2.2fr 1.2fr", gap: 24 }}>
+                    <div className="stack gap-4">
+                      <span className="serif-17">{item.title}</span>
+                      <span className="t13 sec">{r.source}</span>
+                      <span className="t13 sec">Summary and chapters drafted from the transcript</span>
+                    </div>
+                    <div className="stack gap-6">
+                      <span className="eyebrow">Centers, suggested</span>
+                      <CenterPicker
+                        label={`Centers for ${item.title}`}
+                        value={inboxCenters[r.itemId]}
+                        onChange={(v) => setInboxCenters({ ...inboxCenters, [r.itemId]: v })}
+                      />
+                    </div>
+                    <div className="stack gap-8 start">
+                      {done ? (
+                        <span className="t14 sec">Published to Ring {item.ring}. Summary sent to absent families.</span>
+                      ) : (
+                        <button
+                          type="button"
+                          className="btn btn-secondary btn--sm"
+                          onClick={() => { setCenters(r.itemId, inboxCenters[r.itemId]); publishRecording(r.itemId); }}
+                        >
+                          Approve and publish
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
+            </section>
+
+            <section className="table table-scroll" aria-label="Centers of Excellence on each conversation">
+              <div className="band band--split">
+                <h2 className="eyebrow" style={{ margin: 0 }}>Intelligence · Centers of Excellence · {ARCHIVE.length}</h2>
+                <span className="note">Changes show in Intelligence straight away.</span>
+              </div>
+              {(showAllCenters ? ARCHIVE : ARCHIVE.slice(0, 6)).map((a) => (
+                <div key={a.id} className="row" style={{ gridTemplateColumns: "2fr .7fr .9fr 3.2fr", gap: 20 }}>
+                  <div className="stack gap-2">
+                    <span className="serif-17">{a.title}</span>
+                    {SUMMARIES[a.id] && <span className="t13 sec">{SUMMARIES[a.id].source}</span>}
+                  </div>
+                  <div className="num sec">{monthYear(a.date)}</div>
+                  <div className="t14 sec">{a.kind}</div>
+                  <CenterPicker label={`Centers for ${a.title}`} value={centersOf(centers, a)} onChange={(v) => setCenters(a.id, v)} />
+                </div>
+              ))}
+              {!showAllCenters && (
+                <div style={{ padding: "14px 12px" }}>
+                  <button type="button" className="text-ctl" onClick={() => setShowAllCenters(true)}>Show all {ARCHIVE.length}</button>
+                </div>
+              )}
             </section>
 
             <section className="table" aria-label="Founder escalations">

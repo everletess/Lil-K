@@ -1,11 +1,12 @@
 import { useMemo, useState, type FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { PageHeader, Shell } from "../components/Shell";
-import { Tabs } from "../components/controls";
+import { SortHead, Tabs, sortRows, type SortState } from "../components/controls";
 import { ARCHIVE, ASK_SAMPLE, archiveItem } from "../data/data";
 import { archiveVisible, rightsLabel } from "../data/access";
 import { monthYear } from "../data/format";
 import type { ArchiveItem } from "../data/types";
+import { centersOf, useCenters } from "../data/store";
 import { useViewer } from "../viewer";
 
 const MODES = ["Ask", "Search"] as const;
@@ -53,6 +54,16 @@ export default function ArchiveSearch() {
   };
 
   const open = (id: string) => navigate(`/intelligence/${id}`);
+  const centers = useCenters();
+  const [sort, setSort] = useState<SortState<"title" | "date" | "center" | "kind" | "speakers" | "rights"> | null>(null);
+  const sortedResults = sortRows(results, sort, {
+    title: (a) => a.title,
+    date: (a) => a.date,
+    center: (a) => centersOf(centers, a).join(" "),
+    kind: (a) => a.kind,
+    speakers: (a) => a.speakers,
+    rights: (a) => rightsLabel(a),
+  });
 
   return (
     <Shell>
@@ -101,7 +112,7 @@ export default function ArchiveSearch() {
                       >
                         <div className="serif-17">{c.title}</div>
                         <div className="num sec">{monthYear(c.date)}</div>
-                        <div className="t14 sec">{c.center}</div>
+                        <div className="t14 sec">{centersOf(centers, c).join(" · ")}</div>
                         <div className="t14 ink">{c.speakers}</div>
                         <div className="mono">{rightsLabel(c)}</div>
                         <div className="t14 ink">Read</div>
@@ -115,15 +126,22 @@ export default function ArchiveSearch() {
           )}
 
           <section className="table table-scroll" aria-label="Results">
-            <div className="row-head" style={{ gridTemplateColumns: RESULT_COLS, gap: 16 }}>
-              <div>Conversation</div><div>Date</div><div>Center</div><div>Kind</div><div>Speakers</div><div>Rights</div>
-            </div>
+            <SortHead
+              cols={RESULT_COLS}
+              gap={16}
+              sort={sort}
+              onSort={setSort}
+              columns={[
+                { label: "Conversation", key: "title" }, { label: "Date", key: "date" }, { label: "Center", key: "center" },
+                { label: "Kind", key: "kind" }, { label: "Speakers", key: "speakers" }, { label: "Rights", key: "rights" },
+              ]}
+            />
             {results.length === 0 && <p className="empty">Nothing cleared for your ring matches “{searched}”.</p>}
-            {results.map((r) => (
+            {sortedResults.map((r) => (
               <Link key={r.id} to={`/intelligence/${r.id}`} className="row row--link" style={{ gridTemplateColumns: RESULT_COLS, gap: 16 }}>
                 <div className="serif-17">{r.title}</div>
                 <div className="num sec">{monthYear(r.date)}</div>
-                <div className="t14 sec">{r.center}</div>
+                <div className="t14 sec">{centersOf(centers, r).join(" · ")}</div>
                 <div className="t14 ink">{r.kind}</div>
                 <div className="t14 ink">{r.speakers}</div>
                 <div className="mono">{rightsLabel(r)}</div>

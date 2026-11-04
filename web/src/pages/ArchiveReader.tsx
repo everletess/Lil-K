@@ -5,6 +5,8 @@ import { RELATED, TRANSCRIPTS, archiveItem, deal } from "../data/data";
 import { archiveVisible, logReading, rightsLabel } from "../data/access";
 import { CENTER_SHORT, TODAY, monthYearLong, parseDate, shortDate } from "../data/format";
 import type { ArchiveItem } from "../data/types";
+import { SUMMARIES } from "../data/phase2";
+import { centersOf, useCenters } from "../data/store";
 import { useViewer } from "../viewer";
 
 export default function ArchiveReader() {
@@ -32,6 +34,9 @@ function Reader({ item }: { item: ArchiveItem }) {
   const [dark, setDark] = useState(false);
   const transcript = TRANSCRIPTS[item.id];
   const related = RELATED[item.id];
+  const summary = SUMMARIES[item.id];
+  const centers = useCenters();
+  const [playingFrom, setPlayingFrom] = useState<string | null>(null);
 
   useEffect(() => {
     logReading(item.id, viewer);
@@ -49,7 +54,8 @@ function Reader({ item }: { item: ArchiveItem }) {
   const mark = `${viewer.name} · Ring ${viewer.ring} · ${shortDate(TODAY)}`;
   const line = [mark, mark, mark].join("    ");
   const rights = item.rights === "cleared" ? `CLEARED FOR RING ${item.ring}` : rightsLabel(item);
-  const meta = [fullDate(item), CENTER_SHORT[item.center], item.kind, rights].join(" · ").toUpperCase();
+  const centerLine = centersOf(centers, item).map((c) => CENTER_SHORT[c]).join(" · ");
+  const meta = [fullDate(item), centerLine, item.kind, rights].join(" · ").toUpperCase();
 
   const relatedConversations = (related?.conversations ?? [])
     .map((r) => ({ ...r, item: archiveItem(r.id)! }))
@@ -80,7 +86,40 @@ function Reader({ item }: { item: ArchiveItem }) {
                 Participants: {transcript ? transcript.participants : item.speakers}
               </div>
             </header>
-            {transcript ? (
+            {summary && (
+              <section className="stack gap-28" style={{ maxWidth: "68ch" }} aria-label="Summary">
+                <div className="stack gap-10">
+                  <h2 className="eyebrow">Summary · {summary.length} recording</h2>
+                  <p className="t16 ink" style={{ margin: 0 }}>{summary.summary}</p>
+                  <p className="t14 sec" style={{ margin: 0 }}>{summary.attended}. {summary.source}.</p>
+                </div>
+
+                <div className="stack">
+                  <h2 className="eyebrow" style={{ paddingBottom: 10, borderBottom: "1px solid var(--cc-hairline)" }}>Chapters</h2>
+                  {summary.chapters.map((c) => (
+                    <div key={c.at} className="chapter">
+                      <span className="num ink">{c.at}</span>
+                      <div className="stack gap-4">
+                        <span className="t15 ink w500">{c.title}</span>
+                        <span className="t14 sec lh16">{c.points}</span>
+                      </div>
+                      <button type="button" className="text-ctl nowrap" onClick={() => setPlayingFrom(c.at)}>
+                        {playingFrom === c.at ? "Playing here" : `Watch from ${c.at}`}
+                      </button>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="stack gap-10">
+                  <h2 className="eyebrow">What comes next</h2>
+                  {summary.next.map((n) => (
+                    <p key={n} className="t15 ink" style={{ margin: 0 }}>{n}</p>
+                  ))}
+                </div>
+              </section>
+            )}
+
+            {summary ? null : transcript ? (
               <div className="stack gap-28" style={{ maxWidth: "68ch" }}>
                 {transcript.lines.map((t, i) => (
                   <div key={i} className="stack gap-8">

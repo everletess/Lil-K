@@ -39,10 +39,10 @@ export default function MorningBrief() {
           <header className="stack gap-8">
             <div className="eyebrow">{longDate(TODAY)}</div>
             <h1 className="serif-40">Good morning, {viewer.firstName}.</h1>
-            <p className="t15 sec" style={{ margin: 0 }}>Four things today. One needs a decision this month.</p>
+            <p className="t15 sec" style={{ margin: 0 }}>Five things today. One needs a decision this month.</p>
           </header>
 
-          <section aria-label="Four things for you today" style={{ borderTop: "1px solid var(--cc-hairline)" }}>
+          <section aria-label="Five things for you today" style={{ borderTop: "1px solid var(--cc-hairline)" }}>
             <article className="lead-item">
               <h2 className="eyebrow">A deal for you</h2>
               <div className="stack gap-10">
@@ -134,6 +134,21 @@ export default function MorningBrief() {
               <div className="stack gap-12 start">
                 <div className="num-14 sec">18 min read</div>
                 <Link to="/intelligence/lwp-thesis-call" className="text-ctl text-ctl--ink">Read in system</Link>
+              </div>
+            </article>
+
+            <article className="lead-item">
+              <h2 className="eyebrow">While you were away</h2>
+              <div className="stack gap-10">
+                <Link to="/intelligence/health-longevity-sep" className="serif-22">Health &amp; Longevity working group</Link>
+                <p className="t14 ink lh16" style={{ margin: 0, maxWidth: 560 }}>
+                  10 Sep. Nine families on care for a first-generation principal and how to diligence a longevity clinic. Pond Lily Neuro Clinic still needs a family to chair diligence.
+                </p>
+                <div className="eyebrow">People · Ring 1 · Summarised from the recording</div>
+              </div>
+              <div className="stack gap-12 start">
+                <div className="num-14 sec">6 chapters · 4 min</div>
+                <Link to="/intelligence/health-longevity-sep" className="text-ctl text-ctl--ink">Read the summary</Link>
               </div>
             </article>
           </section>
@@ -269,6 +284,12 @@ function MobileBrief({ state, setState }: { state: LeadState; setState: (s: Lead
           <p className="t15 ink" style={{ margin: 0 }}>Two operators on how water rights transfer in drought years — the question your CIO raised on Northfield.</p>
           <div className="mono">JUN 2026 · ASSETS · 18 MIN</div>
           <Link to="/intelligence/lwp-thesis-call" className="btn btn-secondary btn--block" style={{ marginTop: 4 }}>Read in system</Link>
+        </article>
+        <article className="stack gap-12" style={item}>
+          <div className="mono">WHILE YOU WERE AWAY · 10 SEP</div>
+          <div className="serif-20">Health &amp; Longevity working group</div>
+          <p className="t15 ink" style={{ margin: 0 }}>Nine families on care for a first-generation principal and diligence on longevity clinics. Six chapters, four minutes.</p>
+          <Link to="/intelligence/health-longevity-sep" className="btn btn-secondary btn--block" style={{ marginTop: 4 }}>Read the summary</Link>
         </article>
       </div>
 

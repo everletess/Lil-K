@@ -390,6 +390,8 @@ export const MY_DEALS = [
 /* ------------------------------------------------------------------ archive */
 
 export const ARCHIVE: ArchiveItem[] = [
+  { id: "health-longevity-sep", title: "Health & Longevity working group, September session", date: "2026-09-10", center: "People", kind: "Working session", speakers: "the Al-Rashid and Lindqvist families · 7 others", ring: 1, rights: "cleared", attributedFamilies: ["al-rashid", "lindqvist"] },
+  { id: "lwp-september-checkin", title: "Land, Water & Power working group, September check-in", date: "2026-09-12", center: "Assets", kind: "Working session", speakers: "the Whitcombe and Brenner families · 9 others", ring: 1, rights: "under_review", attributedFamilies: ["whitcombe", "brenner"] },
   { id: "lwp-thesis-call", title: "Land, Water & Power thesis call with operators", date: "2026-06", center: "Assets", kind: "Call", speakers: "Hal Brenner · A member", ring: 1, rights: "cleared", attributedFamilies: ["whitcombe", "brenner"] },
   { id: "ai-roundtable", title: "Family Office AI Roundtable", date: "2024-03-14", center: "Business", kind: "Roundtable", speakers: "Samira Salman · Henrik Lindqvist · 9 others", ring: 1, rights: "cleared", attributedFamilies: ["mehra", "lindqvist", "okafor"] },
   { id: "dinner-denver-2025", title: "Dinner & Diligence, Denver", date: "2025-02", center: "Assets", kind: "Event note", speakers: "the Brenner family · Samira Salman", ring: 1, rights: "cleared", attributedFamilies: ["brenner", "whitcombe"] },

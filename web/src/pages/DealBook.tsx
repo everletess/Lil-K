@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Shell } from "../components/Shell";
-import { Filter } from "../components/controls";
+import { Filter, SortHead, sortRows, type SortState } from "../components/controls";
 import { Rum } from "../components/marks";
 import { DEALS, STAGE_OWNERS, family } from "../data/data";
 import { visibleDeals } from "../data/access";
@@ -15,6 +15,19 @@ const CENTER_OPTS = ["All five", ...CENTERS] as const;
 const STRUCTURE_OPTS = ["Any", "Direct", "SPV", "Fund"] as const;
 const RING_OPTS = ["1 and closer", "Ring 1 only", "Ring 2 only"] as const;
 const DECISION_OPTS = ["Next 90 days", "Next 30 days", "Any"] as const;
+
+type DealSortKey = "name" | "center" | "lead" | "ring" | "decision" | "rum";
+const DEAL_SORT: Record<DealSortKey, (d: Deal) => string | number> = {
+  name: (d) => d.name,
+  center: (d) => `${d.center} ${d.structure}`,
+  lead: (d) => family(d.leadFamilyId)?.name.replace(/^the /, "") ?? "~",
+  ring: (d) => d.ring,
+  decision: (d) => d.decisionDate ?? "9999",
+  rum: (d) => d.rum,
+};
+const DEAL_SORT_LABEL: Record<DealSortKey, string> = {
+  name: "Deal", center: "Center", lead: "Lead family", ring: "Ring", decision: "Decision date", rum: "RUM",
+};
 
 function structureLine(d: Deal) {
   return d.corridor ? `${d.structure} · ${d.corridor}` : d.structure;
@@ -68,7 +81,10 @@ export default function DealBook() {
       .sort((a, b) => (a.decisionDate ?? "9999").localeCompare(b.decisionDate ?? "9999"));
   }, [viewer, center, structure, ring, decision]);
 
-  const groups = STAGES.map((s) => ({ ...s, deals: deals.filter((d) => d.stage === s.id) })).filter((g) => g.deals.length);
+  const [sort, setSort] = useState<SortState<DealSortKey> | null>(null);
+  const sortedDeals = useMemo(() => sortRows(deals, sort, DEAL_SORT), [deals, sort]);
+
+  const groups = STAGES.map((s) => ({ ...s, deals: sortedDeals.filter((d) => d.stage === s.id) })).filter((g) => g.deals.length);
 
   return (
     <Shell>
@@ -87,14 +103,19 @@ export default function DealBook() {
             <Filter label="Structure" value={structure} options={STRUCTURE_OPTS} onChange={setStructure} />
             <Filter label="Ring" value={ring} options={RING_OPTS} onChange={setRing} />
             <Filter label="Decision" value={decision} options={DECISION_OPTS} onChange={setDecision} />
-            <div className="sec" style={{ marginLeft: "auto" }}>Sorted by decision date</div>
+            <div className="sec" style={{ marginLeft: "auto" }}>{sort ? `Sorted by ${DEAL_SORT_LABEL[sort.key].toLowerCase()}` : "Sorted by decision date"}</div>
           </div>
 
           <div className="table-scroll stack gap-28">
-            <div className="row-head" style={{ gridTemplateColumns: DEAL_COLS }}>
-              <div>Deal</div><div>Center · Structure</div><div>Lead family</div><div>Why it is in front of you</div>
-              <div>Ring</div><div>Decision</div><div>RUM</div>
-            </div>
+            <SortHead
+              cols={DEAL_COLS}
+              sort={sort}
+              onSort={setSort}
+              columns={[
+                { label: "Deal", key: "name" }, { label: "Center · Structure", key: "center" }, { label: "Lead family", key: "lead" },
+                { label: "Why it is in front of you" }, { label: "Ring", key: "ring" }, { label: "Decision", key: "decision" }, { label: "RUM", key: "rum" },
+              ]}
+            />
 
             {groups.length === 0 && <p className="empty">No deals match these filters.</p>}
 

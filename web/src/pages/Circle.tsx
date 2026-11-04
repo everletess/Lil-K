@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { PageHeader, Shell } from "../components/Shell";
-import { Filter, Tabs } from "../components/controls";
+import { Filter, SortHead, Tabs, sortRows, type SortState } from "../components/controls";
 import { Rum } from "../components/marks";
 import { DIRECTORY_RUM, FAMILIES, NEAR_YOU, RUM_FROM, WORKING_GROUPS, family } from "../data/data";
 import { ringVisible } from "../data/access";
@@ -53,6 +53,14 @@ export default function Circle() {
         .filter((f) => ring === "1 and closer" || (ring === "Ring 1 only" ? f.ring <= 1 : f.ring === 2)),
     [viewer, center, city, gen, interest, ring],
   );
+  const [sort, setSort] = useState<SortState<"name" | "centers" | "ring" | "owner" | "rum"> | null>(null);
+  const sortedFamilies = sortRows(families, sort, {
+    name: (f) => f.name.replace(/^the /, ""),
+    centers: (f) => f.centersOfNeed.join(" "),
+    ring: (f) => f.ring,
+    owner: (f) => f.relationshipOwner,
+    rum: (f) => rumFor(f),
+  });
 
   return (
     <Shell>
@@ -77,12 +85,17 @@ export default function Circle() {
             <div className="grow table-scroll">
               {view === "Families" ? (
                 <div className="table">
-                  <div className="row-head" style={{ gridTemplateColumns: FAMILY_COLS }}>
-                    <div>Family</div><div>Centers of need</div><div>Investment interests</div><div>Ring</div>
-                    <div>Relationship owner</div><div>RUM</div>
-                  </div>
+                  <SortHead
+                    cols={FAMILY_COLS}
+                    sort={sort}
+                    onSort={setSort}
+                    columns={[
+                      { label: "Family", key: "name" }, { label: "Centers of need", key: "centers" }, { label: "Investment interests" },
+                      { label: "Ring", key: "ring" }, { label: "Relationship owner", key: "owner" }, { label: "RUM", key: "rum" },
+                    ]}
+                  />
                   {families.length === 0 && <p className="empty">No families match these filters.</p>}
-                  {families.map((f) => (
+                  {sortedFamilies.map((f) => (
                     <div
                       key={f.id}
                       className="row row--link"
