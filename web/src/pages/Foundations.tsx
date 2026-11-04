@@ -57,7 +57,7 @@ export default function Foundations() {
             ))}
           </div>
           <div data-theme="dark" style={{ background: "#101418", padding: 32 }} className="stack gap-20">
-            <div className="eyebrow">Dark ground — the rail and the archive reading view</div>
+            <div className="eyebrow">Dark ground — the rail and the Intelligence reading view</div>
             <div style={{ background: "var(--cc-surface)", padding: "28px 32px" }} className="stack gap-16">
               <div className="serif-28 ink">Northfield Water Rights Portfolio</div>
               <p className="t15 sec" style={{ margin: 0, maxWidth: 620 }}>

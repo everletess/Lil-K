@@ -100,7 +100,7 @@ export default function Onboarding() {
             <Eyebrow n={3}>Your ring</Eyebrow>
             <p className="serif-22" style={{ lineHeight: 1.3 }}>You are joining as Close Circle (Ring 1).</p>
             <p className="t15 lh175 ink" style={{ margin: 0, maxWidth: "68ch" }}>
-              Ring 1 means you see deals as they are being formed, read the archive cleared for Close Circle, and may ask any family in the ring for an introduction. It does not mean access to Ring 0 material, founder escalations, or conversations a family has restricted; and it carries no obligation to invest in anything you are shown.
+              Ring 1 means you see deals as they are being formed, read the Intelligence cleared for Close Circle, and may ask any family in the ring for an introduction. It does not mean access to Ring 0 material, founder escalations, or conversations a family has restricted; and it carries no obligation to invest in anything you are shown.
             </p>
           </section>
 

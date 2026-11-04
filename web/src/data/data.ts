@@ -22,7 +22,7 @@ export const VIEWERS: Viewer[] = [
   },
   {
     id: "northgate", name: "Northgate Trust Company", firstName: "Northgate", ring: 3,
-    ringLabel: "RING 3 · FOUNDING PARTNER", familyId: null, kind: "partner", home: "/partner",
+    ringLabel: "RING 3 · FOUNDING PARTNER", familyId: null, kind: "partner", home: "/partnerships",
   },
 ];
 
@@ -415,7 +415,7 @@ export const ASK_SAMPLE = {
   question: "What have families said about water rights as an asset class?",
   keywords: ["water", "drought", "rights"],
   answer:
-    "Families in the circle treat senior water rights as an inflation-linked holding with a twenty-year horizon, not an infrastructure trade. The recurring caution is contractual rather than hydrological: municipal leases carry shortage-sharing language that has never been tested, and agricultural cooperatives renegotiate in every drought cycle. Two families ask for ten years of delivery records before pricing. The Brenners hold that local board relationships, not counsel, decide how a transfer is received. Nobody in the archive has sold a position; two have added in drought years.",
+    "Families in the circle treat senior water rights as an inflation-linked holding with a twenty-year horizon, not an infrastructure trade. The recurring caution is contractual rather than hydrological: municipal leases carry shortage-sharing language that has never been tested, and agricultural cooperatives renegotiate in every drought cycle. Two families ask for ten years of delivery records before pricing. The Brenners hold that local board relationships, not counsel, decide how a transfer is received. Nobody in the record has sold a position; two have added in drought years.",
   citations: ["lwp-thesis-call", "dinner-denver-2025", "drought-balance-sheet"] as [string, ...string[]],
 };
 
@@ -588,7 +588,7 @@ export const COMMAND = {
     { label: "Families", value: "52" },
     { label: "Relationships owned", value: "1,240" },
     { label: "Introductions this quarter", value: "31" },
-    { label: "Archive cleared", value: "412 / 1,870" },
+    { label: "Intelligence cleared", value: "412 / 1,870" },
     { label: "Deals in pipeline", value: "10" },
   ],
 };
@@ -625,7 +625,7 @@ export const SURVEY: { center: string; qs: { q: string; a: string }[] }[] = [
 ];
 
 export const AGREEMENT_TERMS = [
-  "Nothing said inside the circle leaves it. Conversations enter the archive only with consent, and every family controls the attribution of its own words.",
+  "Nothing said inside the circle leaves it. Conversations enter Intelligence only with consent, and every family controls the attribution of its own words.",
   "Deals are curated, never endorsed. The circle does not act as adviser, broker or fiduciary, and no allocation is offered on the strength of membership.",
   "Introductions are double opt-in. A name is never forwarded without the agreement of both sides, and every introduction is followed to an outcome.",
   "Each family names one relationship owner inside the circle and keeps that name current.",

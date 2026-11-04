@@ -16,7 +16,8 @@ function memberNav(viewer: Viewer): NavItem[] {
       match: (p) => p.startsWith("/circle") || (p.startsWith("/families/") && p !== own),
     },
     { label: "Introductions", to: "/introductions", count: "3", match: (p) => p.startsWith("/introductions") },
-    { label: "The Archive", to: "/archive", match: (p) => p.startsWith("/archive") },
+    { label: "Intelligence", to: "/intelligence", match: (p) => p.startsWith("/intelligence") },
+    { label: "Partnerships & Resources", to: "/partnerships", match: (p) => p.startsWith("/partnerships") },
     { label: "Events & Salons", to: "/events", count: "4", match: (p) => p.startsWith("/events") },
     { label: "Your Family", to: own || "/circle", match: (p) => !!own && p === own },
   ];
@@ -29,18 +30,20 @@ function teamNav(): NavItem[] {
     { label: "Deal Book", to: "/deals", count: "10", match: (p) => p.startsWith("/deals") },
     { label: "Families & Circle", to: "/circle", count: "52", match: (p) => p.startsWith("/circle") || p.startsWith("/families/") },
     { label: "Introductions", to: "/introductions", count: "7", match: (p) => p.startsWith("/introductions") },
-    { label: "The Archive", to: "/archive", match: (p) => p.startsWith("/archive") },
+    { label: "Intelligence", to: "/intelligence", match: (p) => p.startsWith("/intelligence") },
+    { label: "Partnerships & Resources", to: "/partnerships", match: (p) => p.startsWith("/partnerships") },
     { label: "Events & Salons", to: "/events", count: "8", match: (p) => p.startsWith("/events") },
   ];
 }
 
 function partnerNav(): NavItem[] {
   return [
-    { label: "Console", to: "/partner", match: (p) => p === "/partner" },
-    { label: "Initiatives", to: "/partner#initiatives", count: "4", match: () => false },
-    { label: "Introductions", to: "/partner#opted-in", count: "2", match: () => false },
-    { label: "Events", to: "/partner#initiatives", count: "4", match: () => false },
-    { label: "Your firm", to: "/partner#priorities", match: () => false },
+    { label: "Partnerships & Resources", to: "/partnerships", match: (p) => p === "/partnerships" },
+    { label: "Your resources", to: "/partnerships#contribute", count: "6", match: () => false },
+    { label: "Family needs", to: "/partnerships#needs", count: "3", match: () => false },
+    { label: "Programming", to: "/partnerships#convene", count: "5", match: () => false },
+    { label: "Introductions", to: "/partnerships#introductions", count: "4", match: () => false },
+    { label: "Outcomes", to: "/partnerships#outcomes", match: () => false },
   ];
 }
 

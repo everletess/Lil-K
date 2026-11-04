@@ -110,9 +110,9 @@ export default function MorningBrief() {
             </article>
 
             <article className="lead-item">
-              <h2 className="eyebrow">From the archive</h2>
+              <h2 className="eyebrow">From Intelligence</h2>
               <div className="stack gap-10">
-                <Link to="/archive/lwp-thesis-call" className="serif-22">Land, Water &amp; Power thesis call with operators</Link>
+                <Link to="/intelligence/lwp-thesis-call" className="serif-22">Land, Water &amp; Power thesis call with operators</Link>
                 <p className="t14 ink lh16" style={{ margin: 0, maxWidth: 560 }}>
                   Jun 2026. Two operators describe how water rights transfer in drought years — the question your CIO raised on Northfield.
                 </p>
@@ -120,7 +120,7 @@ export default function MorningBrief() {
               </div>
               <div className="stack gap-12 start">
                 <div className="num-14 sec">18 min read</div>
-                <Link to="/archive/lwp-thesis-call" className="text-ctl text-ctl--ink">Read in system</Link>
+                <Link to="/intelligence/lwp-thesis-call" className="text-ctl text-ctl--ink">Read in system</Link>
               </div>
             </article>
           </section>
@@ -254,7 +254,7 @@ function MobileBrief({ state, setState }: { state: LeadState; setState: (s: Lead
           <div className="serif-20">Land, Water &amp; Power thesis call</div>
           <p className="t15 ink" style={{ margin: 0 }}>Two operators on how water rights transfer in drought years — the question your CIO raised on Northfield.</p>
           <div className="mono">JUN 2026 · ASSETS · 18 MIN</div>
-          <Link to="/archive/lwp-thesis-call" className="btn btn-secondary btn--block" style={{ marginTop: 4 }}>Read in system</Link>
+          <Link to="/intelligence/lwp-thesis-call" className="btn btn-secondary btn--block" style={{ marginTop: 4 }}>Read in system</Link>
         </article>
       </div>
 

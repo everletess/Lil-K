@@ -99,7 +99,7 @@ function Reader({ item }: { item: ArchiveItem }) {
               <h2 className="eyebrow">Related conversations</h2>
               {relatedConversations.map((r) => (
                 <div key={r.id} className="aside-item">
-                  <Link to={`/archive/${r.id}`} className="serif-17">{r.item.title}</Link>
+                  <Link to={`/intelligence/${r.id}`} className="serif-17">{r.item.title}</Link>
                   <div className="t14 sec">{r.meta}</div>
                 </div>
               ))}

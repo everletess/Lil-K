@@ -150,7 +150,7 @@ function Profile({ f }: { f: Family }) {
 
                 {own && (
                   <Section
-                    title={`In the Archive · conversations attributed to your family · ${p.archiveCount}`}
+                    title={`In Intelligence · conversations attributed to your family · ${p.archiveCount}`}
                     right={`Visible to ${f.name} only.`}
                   >
                     {p.archive.map((a) => {

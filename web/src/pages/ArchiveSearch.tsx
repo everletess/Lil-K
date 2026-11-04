@@ -52,17 +52,17 @@ export default function ArchiveSearch() {
     else setSearched(query.trim());
   };
 
-  const open = (id: string) => navigate(`/archive/${id}`);
+  const open = (id: string) => navigate(`/intelligence/${id}`);
 
   return (
     <Shell>
       <main className="main" style={{ display: "block" }}>
         <div className="stack gap-32">
-          <PageHeader title="The Archive" subline="Fifteen years of conversations in the circle. Read here; never exported." />
+          <PageHeader title="Intelligence" subline="Fifteen years of conversations in the circle, and the research partners bring to it. Read here; never exported." />
 
           <form className="stack gap-20" style={{ maxWidth: 940 }} onSubmit={submit} role="search">
             <label>
-              <span className="sr-only">{mode === "Ask" ? "Ask the archive" : "Search the archive"}</span>
+              <span className="sr-only">{mode === "Ask" ? "Ask Intelligence" : "Search Intelligence"}</span>
               <input
                 className="input input--search"
                 type="search"
@@ -71,10 +71,10 @@ export default function ArchiveSearch() {
                   setQuery(e.target.value);
                   if (mode === "Search" && !e.target.value) setSearched("");
                 }}
-                placeholder="Ask the archive, or search a name, topic or year"
+                placeholder="Ask a question, or search a name, topic or year"
               />
             </label>
-            <Tabs tabs={MODES} value={mode} onChange={setMode} label="Archive mode" />
+            <Tabs tabs={MODES} value={mode} onChange={setMode} label="Intelligence mode" />
           </form>
 
           {mode === "Ask" && (
@@ -120,7 +120,7 @@ export default function ArchiveSearch() {
             </div>
             {results.length === 0 && <p className="empty">Nothing cleared for your ring matches “{searched}”.</p>}
             {results.map((r) => (
-              <Link key={r.id} to={`/archive/${r.id}`} className="row row--link" style={{ gridTemplateColumns: RESULT_COLS, gap: 16 }}>
+              <Link key={r.id} to={`/intelligence/${r.id}`} className="row row--link" style={{ gridTemplateColumns: RESULT_COLS, gap: 16 }}>
                 <div className="serif-17">{r.title}</div>
                 <div className="num sec">{monthYear(r.date)}</div>
                 <div className="t14 sec">{r.center}</div>

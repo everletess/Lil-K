@@ -368,3 +368,28 @@ a.row { color: inherit; }
   .desktop-only { display: none !important; }
   .mobile-only { display: block; }
 }
+
+/* ------------------------------------------------ partnerships: how you take part */
+
+.participation {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; grid-template-columns: repeat(6, minmax(0, 1fr));
+  border-top: 1px solid var(--cc-divider); border-bottom: 1px solid var(--cc-hairline);
+}
+.participation li + li { border-left: 1px solid var(--cc-hairline); }
+.participation a {
+  display: flex; flex-direction: column; gap: 8px; height: 100%;
+  padding: 20px 16px 18px; color: inherit; transition: background var(--cc-transition);
+}
+.participation a:hover { background: var(--cc-structural); }
+.participation a .num { margin-top: auto; padding-top: 6px; }
+@media (max-width: 1200px) {
+  .participation { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .participation li:nth-child(4) { border-left: 0; }
+  .participation li:nth-child(n + 4) { border-top: 1px solid var(--cc-hairline); }
+}
+@media (max-width: 640px) {
+  .participation { grid-template-columns: 1fr; }
+  .participation li + li { border-left: 0; border-top: 1px solid var(--cc-hairline); }
+}
+[id] { scroll-margin-top: 24px; }

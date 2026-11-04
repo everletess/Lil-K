@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { BrowserRouter, MemoryRouter, Route, Routes, useLocation } from "react-router-dom";
+import { BrowserRouter, MemoryRouter, Navigate, Route, Routes, useLocation, useParams } from "react-router-dom";
 import { NotForThisRing } from "./components/Shell";
 import { ViewerProvider } from "./viewer";
 import MorningBrief from "./pages/MorningBrief";
@@ -10,7 +10,7 @@ import FamilyProfile from "./pages/FamilyProfile";
 import ArchiveSearch from "./pages/ArchiveSearch";
 import ArchiveReader from "./pages/ArchiveReader";
 import Introductions from "./pages/Introductions";
-import PartnerConsole from "./pages/PartnerConsole";
+import Partnerships from "./pages/Partnerships";
 import Command from "./pages/Command";
 import Events from "./pages/Events";
 import EventCapture from "./pages/EventCapture";
@@ -19,6 +19,12 @@ import Foundations from "./pages/Foundations";
 
 // The hosted preview (a claude.ai artifact) has no real URLs, so it routes in memory.
 const Router = import.meta.env.VITE_ROUTER === "memory" ? MemoryRouter : BrowserRouter;
+
+/** The Archive is now Intelligence; old links still land. */
+function ArchiveRedirect() {
+  const { id } = useParams();
+  return <Navigate to={id ? `/intelligence/${id}` : "/intelligence"} replace />;
+}
 
 function ScrollToTop() {
   const { pathname, hash } = useLocation();
@@ -40,10 +46,13 @@ export default function App() {
           <Route path="/deals/:id" element={<DealRoom />} />
           <Route path="/circle" element={<Circle />} />
           <Route path="/families/:id" element={<FamilyProfile />} />
-          <Route path="/archive" element={<ArchiveSearch />} />
-          <Route path="/archive/:id" element={<ArchiveReader />} />
+          <Route path="/intelligence" element={<ArchiveSearch />} />
+          <Route path="/intelligence/:id" element={<ArchiveReader />} />
+          <Route path="/archive" element={<ArchiveRedirect />} />
+          <Route path="/archive/:id" element={<ArchiveRedirect />} />
           <Route path="/introductions" element={<Introductions />} />
-          <Route path="/partner" element={<PartnerConsole />} />
+          <Route path="/partnerships" element={<Partnerships />} />
+          <Route path="/partner" element={<Navigate to="/partnerships" replace />} />
           <Route path="/command" element={<Command />} />
           <Route path="/events" element={<Events />} />
           <Route path="/events/:id/after" element={<EventCapture />} />
