@@ -393,3 +393,14 @@ a.row { color: inherit; }
   .participation li + li { border-left: 0; border-top: 1px solid var(--cc-hairline); }
 }
 [id] { scroll-margin-top: 24px; }
+
+/* ------------------------------------------------ morning brief: phase 2 note */
+
+.phase-note {
+  display: flex; gap: 20px; align-items: baseline;
+  padding: 12px 16px; background: var(--cc-structural);
+}
+.phase-note .eyebrow { flex: none; }
+@media (max-width: 640px) {
+  .phase-note { flex-direction: column; gap: 6px; }
+}

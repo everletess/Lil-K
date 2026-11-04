@@ -12,6 +12,18 @@ function useLeadState() {
   return useState<LeadState>({ soft: false, blobLead: false, intro: "open" });
 }
 
+/** A quiet note on what Phase 2 adds. Shown once, above the greeting. */
+function PhaseTwo() {
+  return (
+    <aside className="phase-note" aria-label="Coming in Phase 2">
+      <span className="eyebrow">Phase 2</span>
+      <p className="t14 ink lh16" style={{ margin: 0 }}>
+        In Phase 2, Collaboration Circle connects to the systems your family office already runs, so the People, Legacy, Lifestyle, Business and Assets of your family, portfolio included, are managed from one place, day to day.
+      </p>
+    </aside>
+  );
+}
+
 export default function MorningBrief() {
   const { viewer } = useViewer();
   const [state, setState] = useLeadState();
@@ -23,6 +35,7 @@ export default function MorningBrief() {
     <Shell railClassName="desktop-only">
       <main className="main desktop-only">
         <div className="page page--reading gap-44">
+          <PhaseTwo />
           <header className="stack gap-8">
             <div className="eyebrow">{longDate(TODAY)}</div>
             <h1 className="serif-40">Good morning, {viewer.firstName}.</h1>
@@ -206,6 +219,7 @@ function MobileBrief({ state, setState }: { state: LeadState; setState: (s: Lead
         <div className="serif-17" style={{ lineHeight: 1.2 }}>Collaboration Circle</div>
         <div className="mono">14 SEP 2026</div>
       </header>
+      <div style={{ padding: "16px 20px 0" }}><PhaseTwo /></div>
       <div style={{ padding: "24px 20px 8px" }}>
         <h1 className="serif-28">Good morning, {viewer.firstName}.</h1>
       </div>
